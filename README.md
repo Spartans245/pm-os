@@ -1,4 +1,4 @@
-# 🚀 PM OS — Your Personal AI-Powered Product Development System
+# PM OS — AI-Powered Product Development System
 
 > A complete lifecycle system for taking a product from raw idea to POC launch,
 > powered by Claude agents, Markdown artifacts, and Claude Code in VS Code.
@@ -7,9 +7,9 @@
 
 ## What Is This?
 
-PM OS is a collection of **reusable AI agents** and **structured Markdown templates** that automate the cognitive heavy lifting of product development. Each agent is a Claude system prompt you paste into a Claude.ai Project — turning that Project into a specialized assistant for one phase of your workflow.
+PM OS is a collection of **reusable AI agents** and **structured Markdown templates** that automate the cognitive heavy lifting of product development. Each agent runs in Claude Code and produces a **Markdown artifact** saved directly into the active product's folder. By the time you reach the Build phase, you have a full specification ready to build from.
 
-Every agent produces a **Markdown artifact** that becomes the input to the next agent. By the time you reach Claude Code in VS Code, you have a full specification ready to build from.
+Each product lives in its own folder under `projects/`. All artifacts for that product are saved there — creating a persistent, compounding context that every downstream agent reads before it runs.
 
 ---
 
@@ -17,6 +17,13 @@ Every agent produces a **Markdown artifact** that becomes the input to the next 
 
 ```
 Your Raw Idea
+     │
+     ▼
+┌─────────────────────────────────────────────┐
+│  PHASE 0 — Problem Discovery                │
+│                                             │
+│  00-problem-framing-agent   → PROBLEM.md    │
+└─────────────────────────────────────────────┘
      │
      ▼
 ┌─────────────────────────────────────────────┐
@@ -62,7 +69,7 @@ Your Raw Idea
 ┌─────────────────────────────────────────────┐
 │  PHASE 6 — Launch                           │
 │                                             │
-│  05-launch-agent → METRICS.md + LAUNCH.md  │
+│  05-launch-agent → METRICS.md + LAUNCH.md   │
 └─────────────────────────────────────────────┘
 ```
 
@@ -74,8 +81,9 @@ Your Raw Idea
 pm-os/
 ├── README.md                          ← You are here
 │
-├── agents/                            ← Paste these into Claude.ai Projects
-│   ├── 01-ideation-agent.md           ← Phase 1: Raw idea → DISCOVERY.md + pitch
+├── agents/                            ← Agent instructions (the OS brain)
+│   ├── 00-problem-framing-agent.md    ← Phase 0: Raw idea → PROBLEM.md
+│   ├── 01-ideation-agent.md           ← Phase 1: Problem → DISCOVERY.md + pitch
 │   ├── 01b-competitive-agent.md       ← Phase 1: Market research → COMPETITIVE.md
 │   ├── 02-user-story-agent.md         ← Phase 2: Discovery → User Stories + PRD
 │   ├── 02b-roadmap-agent.md           ← Phase 2: Stories → ROADMAP.md
@@ -84,6 +92,7 @@ pm-os/
 │   └── 05-launch-agent.md             ← Phase 6: All artifacts → LAUNCH.md
 │
 ├── templates/                         ← Blank templates for each artifact
+│   ├── PROBLEM.md
 │   ├── DISCOVERY.md
 │   ├── COMPETITIVE.md
 │   ├── PRD.md
@@ -95,9 +104,12 @@ pm-os/
 │   ├── METRICS.md
 │   └── LAUNCH.md
 │
-└── projects/                          ← One folder per product you build
+└── projects/                          ← One folder per product (persistent context)
     └── [your-product-name]/
-        ├── DISCOVERY.md
+        ├── PROJECT.md                 ← Pipeline status tracker
+        ├── IDEA.md                    ← Seed: your raw input, saved first
+        ├── PROBLEM.md                 ← Phase 0 output
+        ├── DISCOVERY.md               ← Phase 1 output
         ├── COMPETITIVE.md
         ├── PRD.md
         ├── USER_STORIES.md
@@ -109,164 +121,121 @@ pm-os/
 
 ---
 
-## How to Use Each Agent
+## How to Use the OS
 
-### Step 1 — Set Up Claude.ai Projects
-
-Create a **separate Claude.ai Project for each agent**. Each Project gets one system prompt.
-
-| Project Name | System Prompt File | What You Feed It |
-|---|---|---|
-| `PM OS — Ideation` | `01-ideation-agent.md` | Your raw idea (any format) |
-| `PM OS — Competitive Research` | `01b-competitive-agent.md` | `DISCOVERY.md` |
-| `PM OS — User Stories` | `02-user-story-agent.md` | `DISCOVERY.md` |
-| `PM OS — Roadmap` | `02b-roadmap-agent.md` | `USER_STORIES.md` |
-| `PM OS — Design Spec` | `03-design-spec-agent.md` | `USER_STORIES.md` + `PRD.md` |
-| `PM OS — Evals` | `04-eval-agent.md` | `USER_STORIES.md` + code snippets |
-| `PM OS — Launch` | `05-launch-agent.md` | All `.md` artifacts |
-
-**How to create a Project:**
-1. Go to claude.ai
-2. Click "Projects" in the left sidebar
-3. Click "New Project"
-4. Paste the contents of the `.md` agent file into the **"Project Instructions"** field
-5. Name the project (e.g., "PM OS — Ideation")
-
----
-
-### Step 2 — Run Phase 1: Ideation
-
-1. Open your `PM OS — Ideation` Project
-2. Type or paste your product idea (rough is fine)
-3. Answer the agent's clarifying questions
-4. The agent will produce `DISCOVERY.md` content + a Pitch Deck brief
-5. Copy the `DISCOVERY.md` output → save to `projects/[your-product]/DISCOVERY.md`
-6. Use the Pitch Deck brief as input to generate the actual PPTX (or ask Claude to build it)
-
----
-
-### Step 3 — Run Phase 1b: Competitive Research
-
-1. Open your `PM OS — Competitive Research` Project
-2. Paste your `DISCOVERY.md` as context
-3. The agent will search for competitors and produce `COMPETITIVE.md`
-4. Save to `projects/[your-product]/COMPETITIVE.md`
-
----
-
-### Step 4 — Run Phase 2: User Stories + PRD
-
-1. Open your `PM OS — User Stories` Project
-2. Paste `DISCOVERY.md` + `COMPETITIVE.md` as context
-3. The agent will generate Epics → Features → User Stories with acceptance criteria
-4. Also produces a structured `PRD.md`
-5. Save both to your project folder
-
----
-
-### Step 5 — Run Phase 2b: Roadmap
-
-1. Open your `PM OS — Roadmap` Project
-2. Paste `USER_STORIES.md` as context
-3. The agent generates `ROADMAP.md` with quarters, themes, priorities, and dependencies
-
----
-
-### Step 6 — Run Phase 3: Design Spec
-
-1. Open your `PM OS — Design Spec` Project
-2. Paste `USER_STORIES.md` + `PRD.md` as context
-3. The agent generates `DESIGN_SPEC.md` with UX flows, component inventory, screen states
-
----
-
-### Step 7 — Build with Claude Code in VS Code
-
-This is where the Markdown chain becomes working code.
-
-**Setup:**
-1. Install the Claude Code extension in VS Code
-2. Create a new folder: `projects/[your-product]/src/`
-3. Copy all your `.md` artifacts into the project root
-
-**How to prompt Claude Code:**
-```
-Read the following files for context before writing any code:
-- DESIGN_SPEC.md (component inventory + UX flows)
-- USER_STORIES.md (features + acceptance criteria)
-- PRD.md (technical requirements)
-
-Now scaffold the project structure and implement [specific feature].
-```
-
-**Pro tips for Claude Code:**
-- Reference specific user story IDs when asking for features (e.g., "Implement US-003")
-- Ask Claude Code to write tests based on acceptance criteria in USER_STORIES.md
-- Paste the DESIGN_SPEC component list to have Claude scaffold all components at once
-
----
-
-### Step 8 — Run Phase 5: Evals
-
-1. Open your `PM OS — Evals` Project
-2. Paste `USER_STORIES.md` + key code snippets as context
-3. The agent generates `EVALS.md` (per-story success criteria) + `TEST_CASES.md`
-
----
-
-### Step 9 — Run Phase 6: Launch
-
-1. Open your `PM OS — Launch` Project
-2. Paste all `.md` artifacts as context
-3. The agent generates `METRICS.md` (KPI dashboard spec) + `LAUNCH.md` (Go/No-Go checklist, demo script, stakeholder update)
-
----
-
-## Quick Reference: Artifact Dependency Map
+### Step 1 — Create a New Product Folder
 
 ```
-DISCOVERY.md ──────────────┬──→ COMPETITIVE.md
-                           ├──→ USER_STORIES.md ──┬──→ DESIGN_SPEC.md ──→ /src code
-                           │                      ├──→ ROADMAP.md
-                           │                      ├──→ EVALS.md
-                           │                      └──→ TEST_CASES.md
-                           └──→ PRD.md ────────────→ DESIGN_SPEC.md
-
-All artifacts ─────────────────────────────────────→ LAUNCH.md + METRICS.md
+projects/
+  your-product-name/
+    PROJECT.md    ← create this first to track pipeline status
 ```
+
+Share your raw idea — it gets saved as `IDEA.md` in the product folder. This is the seed that feeds every downstream agent.
 
 ---
 
-## Pro Tips
+### Step 2 — Run Phase 0: Problem Framing
 
-**1. Keep artifacts versioned**
-Add `v1.0`, `v1.1` to filenames as they evolve. Never overwrite — always fork.
+Point Claude Code at `agents/00-problem-framing-agent.md`. The agent will:
+1. Read your `IDEA.md`
+2. Ask at most 2 clarifying questions
+3. Brainstorm with you and offer 3 reframes
+4. Write `PROBLEM.md` once you sign off
 
-**2. Use artifacts as conversation starters**
-When talking to stakeholders, paste the relevant `.md` file and say: "Here's what the AI produced — let's pressure test it."
+Save output to `projects/[your-product]/PROBLEM.md`.
 
-**3. The Pitch Deck is always up to date**
-Re-run the Ideation Agent after major pivots to regenerate the pitch deck brief. Takes 5 minutes.
+---
 
-**4. Claude Code works best with specific story IDs**
-Format: "Implement the acceptance criteria for US-003 (User can filter results by category)"
+### Step 3 — Run Phase 1: Ideation
 
-**5. Treat DISCOVERY.md as the source of truth**
-If anything changes fundamentally, update DISCOVERY.md first, then cascade downstream.
+Reads: `PROBLEM.md`
+Produces: `DISCOVERY.md` + Pitch Deck brief
+
+---
+
+### Step 4 — Run Phase 1b: Competitive Research
+
+Reads: `DISCOVERY.md`
+Produces: `COMPETITIVE.md`
+
+---
+
+### Step 5 — Run Phase 2: User Stories + PRD
+
+Reads: `DISCOVERY.md` + `COMPETITIVE.md`
+Produces: `USER_STORIES.md` + `PRD.md`
+
+---
+
+### Step 6 — Run Phase 2b: Roadmap
+
+Reads: `USER_STORIES.md`
+Produces: `ROADMAP.md`
+
+---
+
+### Step 7 — Run Phase 3: Design Spec
+
+Reads: `USER_STORIES.md` + `PRD.md`
+Produces: `DESIGN_SPEC.md`
+
+---
+
+### Step 8 — Build with Claude Code in VS Code
+
+Reads: `DESIGN_SPEC.md` + `USER_STORIES.md` + `PRD.md`
+Produces: `/src` POC codebase
+
+Claude Code reads all artifacts in the project folder automatically. Reference specific user story IDs when building features (e.g., "Implement US-003").
+
+---
+
+### Step 9 — Run Phase 5: Evals
+
+Reads: `USER_STORIES.md` + code
+Produces: `EVALS.md` + `TEST_CASES.md`
+
+---
+
+### Step 10 — Run Phase 6: Launch
+
+Reads: All artifacts
+Produces: `METRICS.md` + `LAUNCH.md`
+
+---
+
+## Artifact Dependency Map
+
+```
+IDEA.md ────────────────────→ PROBLEM.md
+                                   │
+                                   ▼
+                             DISCOVERY.md ──┬──→ COMPETITIVE.md
+                                            │
+                                            ├──→ USER_STORIES.md ──┬──→ DESIGN_SPEC.md ──→ /src
+                                            │                      ├──→ ROADMAP.md
+                                            │                      ├──→ EVALS.md
+                                            │                      └──→ TEST_CASES.md
+                                            └──→ PRD.md ───────────→ DESIGN_SPEC.md
+
+All artifacts ──────────────────────────────────────────────────────→ LAUNCH.md + METRICS.md
+```
 
 ---
 
 ## Agent Build Status
 
-| Agent | Status | File |
-|-------|--------|------|
-| Ideation Agent | ✅ Built | `01-ideation-agent.md` |
-| Competitive Research Agent | 🔜 Next | `01b-competitive-agent.md` |
-| User Story Agent | 🔜 Phase 2 | `02-user-story-agent.md` |
-| Roadmap Agent | 🔜 Phase 2 | `02b-roadmap-agent.md` |
-| Design Spec Agent | 🔜 Phase 3 | `03-design-spec-agent.md` |
-| Eval Agent | 🔜 Phase 5 | `04-eval-agent.md` |
-| Launch Agent | 🔜 Phase 6 | `05-launch-agent.md` |
+| Phase | Agent | Status | File |
+|-------|-------|--------|------|
+| 0 | Problem Framing Agent | ✅ Built | `00-problem-framing-agent.md` |
+| 1 | Ideation Agent | ✅ Built | `01-ideation-agent.md` |
+| 1b | Competitive Research Agent | 🔜 Pending | `01b-competitive-agent.md` |
+| 2 | User Story Agent | 🔜 Pending | `02-user-story-agent.md` |
+| 2b | Roadmap Agent | 🔜 Pending | `02b-roadmap-agent.md` |
+| 3 | Design Spec Agent | 🔜 Pending | `03-design-spec-agent.md` |
+| 5 | Eval Agent | 🔜 Pending | `04-eval-agent.md` |
+| 6 | Launch Agent | 🔜 Pending | `05-launch-agent.md` |
 
 ---
 
