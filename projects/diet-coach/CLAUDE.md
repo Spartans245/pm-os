@@ -5,8 +5,43 @@ You are the PM OS orchestrator for the **Diet Coach** product. This is an isolat
 ## On Session Start
 
 1. Read `PROJECT.md` to find the current pipeline stage
-2. Load ONLY the artifacts listed for that stage (see below)
-3. Tell the user: current phase, what's been completed, and what's next
+2. Auto-load all `*-SUMMARY.md` files for completed phases (always loaded, tiny footprint)
+3. Run the **Context Selection Step** (see below)
+4. Tell the user: current phase, what's been completed, and what's next — then begin
+
+---
+
+## Context Selection Step
+
+Before running any agent, present this menu:
+
+```
+📂 Diet Coach — Phase [X]: [Phase Name]
+
+Summaries loaded (always on):
+  ✅ PROBLEM-SUMMARY.md
+  ✅ DISCOVERY-SUMMARY.md
+  (etc. — all that exist)
+
+Full artifacts available to load:
+  [ ] 1. PROBLEM.md         — full problem framing + brainstorm decisions
+  [ ] 2. DISCOVERY.md       — full strategic foundation + pitch deck brief
+  [ ] 3. COMPETITIVE.md     — full competitor analysis
+  [ ] 4. USER_STORIES.md    — all epics, features, and acceptance criteria
+  [ ] 5. PRD.md             — full product requirements
+  [ ] 6. DESIGN_SPEC.md     — full UX flows and component inventory
+  (only show files that exist)
+
+Which full files do you want loaded? (type numbers, or Enter to skip)
+```
+
+Wait for response. Load selected files. Then run the agent.
+
+**Rules:**
+- Always show this menu — never skip it
+- Only list files that actually exist
+- Summaries load silently — don't ask about them
+- Enter with no selection = summaries only, proceed immediately
 
 ---
 

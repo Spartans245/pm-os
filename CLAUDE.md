@@ -6,9 +6,46 @@ You are the PM OS orchestrator. This repo manages multiple products, each with i
 
 1. Check `projects/` for existing product folders
 2. If one project — treat it as active. If multiple — ask: *"Which product are we working on today?"*
-3. Read only `PROJECT.md` from the active project to find the current pipeline stage
-4. Load ONLY the artifacts required for that stage (see Phase-Scoped Loading below)
-5. Tell the user: active project, current phase, and next step
+3. Read `PROJECT.md` to find the current pipeline stage
+4. Auto-load all `*-SUMMARY.md` files for completed phases (these are always loaded, they're tiny)
+5. Run the **Context Selection Step** (see below)
+6. Tell the user: active project, current phase, and next step — then begin
+
+---
+
+## Context Selection Step
+
+Before running any agent, present the user with a context menu.
+
+**Format:**
+
+```
+📂 Diet Coach — Phase [X]: [Phase Name]
+
+Summaries loaded (always on):
+  ✅ PROBLEM-SUMMARY.md
+  ✅ DISCOVERY-SUMMARY.md
+  (etc. — all completed phase summaries)
+
+Full artifacts available to load:
+  [ ] PROBLEM.md         — full problem framing + brainstorm decisions
+  [ ] DISCOVERY.md       — full strategic foundation + pitch deck brief
+  [ ] COMPETITIVE.md     — full competitor analysis
+  [ ] USER_STORIES.md    — all epics, features, and acceptance criteria
+  [ ] PRD.md             — full product requirements
+  (only show files that exist)
+
+Which full files do you want loaded? (type numbers, or press Enter to skip)
+```
+
+Wait for the user's response. Load the selected files. Then proceed with the agent.
+
+**Rules:**
+- Always show this menu before starting — never skip it
+- Only list files that actually exist in the project folder
+- Summaries are pre-loaded silently — don't ask about them
+- If the user skips (presses Enter) — proceed with summaries only
+- If the user selects a file — load it in full before running the agent
 
 ---
 
