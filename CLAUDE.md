@@ -14,19 +14,21 @@ You are the PM OS orchestrator. This repo manages multiple products, each with i
 
 ## Phase-Scoped Loading
 
-Only load what the current phase needs. Never load the full project folder.
+Only load what the current phase needs. Prefer `*-SUMMARY.md` files over full artifacts for completed phases — they contain the same key decisions at a fraction of the token cost. Only load the full artifact when the agent needs to produce output that depends on its full detail.
 
 | Current Phase | Load these files |
 |---|---|
 | Phase 0 — Problem Framing | `IDEA.md` |
-| Phase 1 — Ideation | `PROBLEM.md` |
-| Phase 1b — Competitive Research | `DISCOVERY.md` |
-| Phase 2 — User Stories + PRD | `DISCOVERY.md` + `COMPETITIVE.md` |
+| Phase 1 — Ideation | `PROBLEM-SUMMARY.md` (fallback: `PROBLEM.md`) |
+| Phase 1b — Competitive Research | `DISCOVERY-SUMMARY.md` (fallback: `DISCOVERY.md`) |
+| Phase 2 — User Stories + PRD | `DISCOVERY-SUMMARY.md` + `COMPETITIVE.md` |
 | Phase 2b — Roadmap | `USER_STORIES.md` |
 | Phase 3 — Design Spec | `USER_STORIES.md` + `PRD.md` |
-| Phase 4 — Build | `DESIGN_SPEC.md` + `USER_STORIES.md` + `PRD.md` |
+| Phase 4 — Build | `DESIGN_SPEC.md` + one user story at a time from `USER_STORIES.md` |
 | Phase 5 — Evals | `USER_STORIES.md` |
-| Phase 6 — Launch | `PROBLEM.md` + `DISCOVERY.md` + `PRD.md` (summaries only if large) |
+| Phase 6 — Launch | `PROBLEM-SUMMARY.md` + `DISCOVERY-SUMMARY.md` + `PRD.md` |
+
+**Build phase rule:** Never load all user stories at once. Load `DESIGN_SPEC.md` once, then work feature by feature — load one epic/story, build it, commit, repeat.
 
 ---
 

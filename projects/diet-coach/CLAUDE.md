@@ -12,19 +12,21 @@ You are the PM OS orchestrator for the **Diet Coach** product. This is an isolat
 
 ## Phase-Scoped Context
 
-Only load what the current phase needs:
+Only load what the current phase needs. Use `*-SUMMARY.md` files for completed phases — same key decisions, fraction of the tokens. Only load a full artifact when actively producing output that requires its full detail.
 
 | Current Phase | Load these files |
 |---|---|
 | Phase 0 — Problem Framing | `IDEA.md` |
-| Phase 1 — Ideation | `PROBLEM.md` |
-| Phase 1b — Competitive Research | `DISCOVERY.md` |
-| Phase 2 — User Stories + PRD | `DISCOVERY.md` + `COMPETITIVE.md` |
+| Phase 1 — Ideation | `PROBLEM-SUMMARY.md` (fallback: `PROBLEM.md`) |
+| Phase 1b — Competitive Research | `DISCOVERY-SUMMARY.md` (fallback: `DISCOVERY.md`) |
+| Phase 2 — User Stories + PRD | `DISCOVERY-SUMMARY.md` + `COMPETITIVE.md` |
 | Phase 2b — Roadmap | `USER_STORIES.md` |
 | Phase 3 — Design Spec | `USER_STORIES.md` + `PRD.md` |
-| Phase 4 — Build | `DESIGN_SPEC.md` + `USER_STORIES.md` + `PRD.md` |
+| Phase 4 — Build | `DESIGN_SPEC.md` + one user story at a time |
 | Phase 5 — Evals | `USER_STORIES.md` |
-| Phase 6 — Launch | `PROBLEM.md` + `DISCOVERY.md` + `PRD.md` |
+| Phase 6 — Launch | `PROBLEM-SUMMARY.md` + `DISCOVERY-SUMMARY.md` + `PRD.md` |
+
+**Build phase rule:** Load `DESIGN_SPEC.md` once. Then work feature by feature — load one epic/story, build it, commit, move to next. Never load all stories at once.
 
 ---
 

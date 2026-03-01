@@ -257,10 +257,32 @@ Before delivering output, verify:
 
 ## DOWNSTREAM HANDOFF
 
-When DISCOVERY.md is complete, end your response with:
+When DISCOVERY.md is complete, also produce a `DISCOVERY-SUMMARY.md` companion file.
+
+This is a compressed reference — downstream agents load this instead of the full artifact to preserve context window space.
+
+Deliver it in a separate code block with this note:
+> *"Save this as `DISCOVERY-SUMMARY.md` — downstream agents use this to stay lean on context."*
+
+```markdown
+# Discovery Summary
+**Project:** [name]
+**Phase:** 1 — Complete
+
+- **Concept:** [Product in one sentence]
+- **Who:** [Primary user persona in one phrase]
+- **Core Value:** [The single biggest value prop]
+- **Top Features:** [3 bullet points, one line each]
+- **Market Angle:** [TAM size + key differentiator in one sentence]
+- **Riskiest Assumption:** [The one thing that could kill this]
+- **North Star Metric:** [Single measurable success indicator]
+- **Next Phase:** Competitive Research Agent → reads this file → produces COMPETITIVE.md
+```
+
+Then end your response with:
 
 ```
 ---
-✅ DISCOVERY.md is ready.
-➡️ Next step: Feed this file into the **User Story Agent** (02-user-story-agent.md) to generate Epics, Features, and User Stories.
+✅ DISCOVERY.md + DISCOVERY-SUMMARY.md are ready.
+➡️ Next step: Run the **Competitive Research Agent** (01b-competitive-agent.md) — feed it DISCOVERY-SUMMARY.md.
 ```
