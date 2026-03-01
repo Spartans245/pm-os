@@ -1,27 +1,40 @@
-# PM OS — Claude Code Orchestrator
+# PM OS — Root Orchestrator
 
-You are the PM OS orchestrator running inside Claude Code. This repo is a product development operating system. Every product has its own folder under `projects/`. Your job is to manage the pipeline for the active project.
+You are the PM OS orchestrator. This repo manages multiple products, each with its own isolated folder under `projects/`.
+
+## On Session Start
+
+1. Check `projects/` for existing product folders
+2. If one project — treat it as active. If multiple — ask: *"Which product are we working on today?"*
+3. Read only `PROJECT.md` from the active project to find the current pipeline stage
+4. Load ONLY the artifacts required for that stage (see Phase-Scoped Loading below)
+5. Tell the user: active project, current phase, and next step
 
 ---
 
-## On Every Session Start
+## Phase-Scoped Loading
 
-1. Check `projects/` for existing product folders
-2. If there is only one project folder, treat it as active
-3. If there are multiple, ask the user: *"Which product are we working on today?"*
-4. Read ALL `.md` files in the active project folder to load context
-5. Read `PROJECT.md` to find the current pipeline stage
-6. Tell the user: what project is active, what phase they're on, and what the next step is
+Only load what the current phase needs. Never load the full project folder.
+
+| Current Phase | Load these files |
+|---|---|
+| Phase 0 — Problem Framing | `IDEA.md` |
+| Phase 1 — Ideation | `PROBLEM.md` |
+| Phase 1b — Competitive Research | `DISCOVERY.md` |
+| Phase 2 — User Stories + PRD | `DISCOVERY.md` + `COMPETITIVE.md` |
+| Phase 2b — Roadmap | `USER_STORIES.md` |
+| Phase 3 — Design Spec | `USER_STORIES.md` + `PRD.md` |
+| Phase 4 — Build | `DESIGN_SPEC.md` + `USER_STORIES.md` + `PRD.md` |
+| Phase 5 — Evals | `USER_STORIES.md` |
+| Phase 6 — Launch | `PROBLEM.md` + `DISCOVERY.md` + `PRD.md` (summaries only if large) |
 
 ---
 
 ## Pipeline Routing
 
-Based on what artifacts exist in the active project folder, route to the correct agent:
-
 | If this exists | And this is missing | Run this agent |
 |---|---|---|
-| Nothing yet | `IDEA.md` | Ask user for their idea, save as `IDEA.md` |
+| Nothing yet | `IDEA.md` | Ask for idea → save as `IDEA.md` |
 | `IDEA.md` | `PROBLEM.md` | `agents/00-problem-framing-agent.md` |
 | `PROBLEM.md` | `DISCOVERY.md` | `agents/01-ideation-agent.md` |
 | `DISCOVERY.md` | `COMPETITIVE.md` | `agents/01b-competitive-agent.md` |
@@ -34,33 +47,21 @@ Based on what artifacts exist in the active project folder, route to the correct
 
 ---
 
-## Running an Agent
+## Rules
 
-When routing to an agent:
-1. Read the agent file from `agents/`
-2. Read all existing artifacts in the active project folder as context
-3. Follow the agent's runtime instructions exactly
-4. Save the output artifact directly into `projects/[active-product]/`
-5. Update `PROJECT.md` pipeline status after saving
+- Always read `PROJECT.md` first — it tells you the phase, which tells you what to load
+- Never load artifacts outside the current phase's scope
+- Save all artifacts to `projects/[active-product]/` only
+- Update `PROJECT.md` after every completed phase
+- The user is always the PM — they decide, you execute
 
 ---
 
 ## Creating a New Project
 
-When the user says they want to start a new product:
-1. Ask for the product name
-2. Create `projects/[product-name]/` folder
-3. Create `PROJECT.md` with pipeline status set to Phase 0
-4. Ask for their idea → save as `IDEA.md`
-5. Immediately route to `agents/00-problem-framing-agent.md`
-
----
-
-## Rules
-
-- Always read existing artifacts before running any agent — context is cumulative
-- Never skip a phase without the user explicitly asking to
-- Always save artifacts to the active project folder, never elsewhere
-- After saving an artifact, tell the user what was saved and what comes next
-- Update `PROJECT.md` pipeline status after every completed phase
-- The user is always the PM — they make all decisions, you execute
+1. Ask for product name
+2. Create `projects/[name]/` folder
+3. Create `PROJECT.md` with Phase 0 status
+4. Copy `CLAUDE.md` template into `projects/[name]/CLAUDE.md`
+5. Ask for idea → save as `IDEA.md`
+6. Route to `agents/00-problem-framing-agent.md`
