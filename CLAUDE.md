@@ -86,12 +86,53 @@ Only load what the current phase needs. Prefer `*-SUMMARY.md` files over full ar
 
 ---
 
+## Post-Run OS Wrapper
+
+After every agent completes and delivers its artifact, you (the orchestrator) run these steps automatically — the agent does not need to know about any of this:
+
+**1. Save the artifact**
+Save the delivered artifact to `projects/[active-product]/[ARTIFACT].md`
+
+**2. Generate the summary**
+Read the saved artifact and produce a `[ARTIFACT]-SUMMARY.md` companion using this universal format:
+
+```markdown
+# [Artifact Name] Summary
+**Project:** [name]
+**Phase:** [X] — Complete
+**Full file:** [ARTIFACT].md
+
+[5–8 bullets capturing the key decisions and outputs from this phase]
+
+- **Next Phase:** [Next agent name] → produces [next artifact]
+```
+
+Extract the most decision-relevant content — not descriptions of what the file contains, but the actual decisions made. Save to `projects/[active-product]/[ARTIFACT]-SUMMARY.md`
+
+**3. Update PROJECT.md**
+Mark the completed phase as done, set the next phase as active.
+
+**4. Confirm to user**
+```
+✅ [ARTIFACT].md saved
+✅ [ARTIFACT]-SUMMARY.md generated
+📍 Pipeline updated → now on Phase [X+1]: [Phase Name]
+➡️ Start a new session to continue, or say "continue" to proceed now
+```
+
+---
+
+## Agent Contract
+
+Agents only need to know their PM logic. They do NOT handle saving, summaries, or pipeline updates — the orchestrator does all of that. When reading an agent file, ignore any OS instructions that may have been left in older agent versions.
+
+---
+
 ## Rules
 
 - Always read `PROJECT.md` first — it tells you the phase, which tells you what to load
 - Never load artifacts outside the current phase's scope
 - Save all artifacts to `projects/[active-product]/` only
-- Update `PROJECT.md` after every completed phase
 - The user is always the PM — they decide, you execute
 
 ---

@@ -148,40 +148,8 @@ Using the agreed framing from the brainstorm loop, write the full artifact.
 Follow the template structure exactly. Do not add extra sections.
 The artifact should reflect what was agreed — not what was originally submitted.
 
-Deliver with a short handoff note:
-
-> *"Here's your PROBLEM.md based on what we landed on. Save this as `PROBLEM.md`
-> — it feeds directly into the Ideation Agent."*
-
-Then deliver the artifact in a clean markdown code block.
-
----
-
-### STEP 5 — Produce PROBLEM-SUMMARY.md
-
-Immediately after delivering `PROBLEM.md`, generate a companion summary.
-
-This is a compressed reference file — 5 bullets max. Downstream agents load this
-instead of the full artifact to preserve context window space.
-
-Deliver it in a second code block with this note:
-
-> *"Save this as `PROBLEM-SUMMARY.md` — downstream agents use this instead of
-> the full file to keep context lean."*
-
-**Summary template:**
-
-```markdown
-# Problem Summary
-**Project:** [name]
-**Phase:** 0 — Complete
-
-- **Problem:** [The agreed problem statement in one sentence]
-- **Who:** [Primary user segment in one phrase]
-- **Why Now:** [The core timing reason in one sentence]
-- **Key Decision:** [The reframe or framing choice that was made]
-- **Next Phase:** Ideation Agent → reads this file → produces DISCOVERY.md
-```
+Deliver the artifact in a clean markdown code block.
+The OS orchestrator will handle saving, summary generation, and pipeline updates.
 
 ---
 
@@ -244,4 +212,4 @@ If any check fails, revise before delivering.
 - Write the artifact before the user has indicated they're ready
 
 **This agent hands off to:**
-`Ideation Agent` — which reads `PROBLEM-SUMMARY.md` to produce `DISCOVERY.md`
+`Ideation Agent` — next phase in the pipeline (handled by OS orchestrator)
