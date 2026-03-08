@@ -22,31 +22,31 @@ Your Raw Idea
 ┌─────────────────────────────────────────────┐
 │  PHASE 0 — Problem Discovery                │
 │                                             │
-│  00-problem-framing-agent   → PROBLEM.md    │
+│  problem-framing-agent   → PROBLEM.md    │
 └─────────────────────────────────────────────┘
      │
      ▼
 ┌─────────────────────────────────────────────┐
 │  PHASE 1 — Ideation & Market Intelligence   │
 │                                             │
-│  01-ideation-agent          → DISCOVERY.md  │
-│  01b-competitive-agent      → COMPETITIVE.md│
+│  ideation-agent          → DISCOVERY.md  │
+│  competitive-research-agent      → COMPETITIVE.md│
 └─────────────────────────────────────────────┘
      │
      ▼
 ┌─────────────────────────────────────────────┐
 │  PHASE 2 — Requirements & Planning          │
 │                                             │
-│  02-user-story-agent  → USER_STORIES.md     │
+│  user-stories-agent  → USER_STORIES.md     │
 │                         PRD.md              │
-│  02b-roadmap-agent    → ROADMAP.md          │
+│  roadmap-agent    → ROADMAP.md          │
 └─────────────────────────────────────────────┘
      │
      ▼
 ┌─────────────────────────────────────────────┐
 │  PHASE 3 — Design Specification             │
 │                                             │
-│  03-design-spec-agent → DESIGN_SPEC.md      │
+│  design-spec-agent → DESIGN_SPEC.md      │
 └─────────────────────────────────────────────┘
      │
      ▼
@@ -62,14 +62,14 @@ Your Raw Idea
 ┌─────────────────────────────────────────────┐
 │  PHASE 5 — Evals & Quality                  │
 │                                             │
-│  04-eval-agent → EVALS.md + TEST_CASES.md   │
+│  eval-agent → EVALS.md + TEST_CASES.md   │
 └─────────────────────────────────────────────┘
      │
      ▼
 ┌─────────────────────────────────────────────┐
 │  PHASE 6 — Launch                           │
 │                                             │
-│  05-launch-agent → METRICS.md + LAUNCH.md   │
+│  launch-agent → METRICS.md + LAUNCH.md   │
 └─────────────────────────────────────────────┘
 ```
 
@@ -81,15 +81,15 @@ Your Raw Idea
 pm-os/
 ├── README.md                          ← You are here
 │
-├── agents/                            ← Agent instructions (the OS brain)
-│   ├── 00-problem-framing-agent.md    ← Phase 0: Raw idea → PROBLEM.md
-│   ├── 01-ideation-agent.md           ← Phase 1: Problem → DISCOVERY.md + pitch
-│   ├── 01b-competitive-agent.md       ← Phase 1: Market research → COMPETITIVE.md
-│   ├── 02-user-story-agent.md         ← Phase 2: Discovery → User Stories + PRD
-│   ├── 02b-roadmap-agent.md           ← Phase 2: Stories → ROADMAP.md
-│   ├── 03-design-spec-agent.md        ← Phase 3: Stories → DESIGN_SPEC.md
-│   ├── 04-eval-agent.md               ← Phase 5: Stories + code → EVALS.md
-│   └── 05-launch-agent.md             ← Phase 6: All artifacts → LAUNCH.md
+├── skills/                            ← Agent instructions (the OS brain)
+│   ├── problem-framing.md    ← Phase 0: Raw idea → PROBLEM.md
+│   ├── ideation.md           ← Phase 1: Problem → DISCOVERY.md + pitch
+│   ├── competitive-research.md       ← Phase 1: Market research → COMPETITIVE.md
+│   ├── user-stories.md         ← Phase 2: Discovery → User Stories + PRD
+│   ├── roadmap.md           ← Phase 2: Stories → ROADMAP.md
+│   ├── design-spec.md        ← Phase 3: Stories → DESIGN_SPEC.md
+│   ├── eval.md               ← Phase 5: Stories + code → EVALS.md
+│   └── launch.md             ← Phase 6: All artifacts → LAUNCH.md
 │
 ├── templates/                         ← Blank templates for each artifact
 │   ├── PROBLEM.md
@@ -137,7 +137,7 @@ Share your raw idea — it gets saved as `IDEA.md` in the product folder. This i
 
 ### Step 2 — Run Phase 0: Problem Framing
 
-Point Claude Code at `agents/00-problem-framing-agent.md`. The agent will:
+Point Claude Code at `skills/problem-framing.md`. The agent will:
 1. Read your `IDEA.md`
 2. Ask at most 2 clarifying questions
 3. Brainstorm with you and offer 3 reframes
@@ -224,18 +224,18 @@ All artifacts ──────────────────────
 
 ---
 
-## Agent Build Status
+## Skill Build Status
 
 | Phase | Agent | Status | File |
 |-------|-------|--------|------|
-| 0 | Problem Framing Agent | ✅ Built | `00-problem-framing-agent.md` |
-| 1 | Ideation Agent | ✅ Built | `01-ideation-agent.md` |
-| 1b | Competitive Research Agent | 🔜 Pending | `01b-competitive-agent.md` |
-| 2 | User Story Agent | 🔜 Pending | `02-user-story-agent.md` |
-| 2b | Roadmap Agent | 🔜 Pending | `02b-roadmap-agent.md` |
-| 3 | Design Spec Agent | 🔜 Pending | `03-design-spec-agent.md` |
-| 5 | Eval Agent | 🔜 Pending | `04-eval-agent.md` |
-| 6 | Launch Agent | 🔜 Pending | `05-launch-agent.md` |
+| 0 | Problem Framing Agent | ✅ Built | `problem-framing.md` |
+| 1 | Ideation Agent | ✅ Built | `ideation.md` |
+| 1b | Competitive Research Agent | 🔜 Pending | `competitive-research.md` |
+| 2 | User Story Agent | 🔜 Pending | `user-stories.md` |
+| 2b | Roadmap Agent | 🔜 Pending | `roadmap.md` |
+| 3 | Design Spec Agent | 🔜 Pending | `design-spec.md` |
+| 5 | Eval Agent | 🔜 Pending | `eval.md` |
+| 6 | Launch Agent | 🔜 Pending | `launch.md` |
 
 ---
 

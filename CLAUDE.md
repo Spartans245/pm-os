@@ -71,24 +71,24 @@ Only load what the current phase needs. Prefer `*-SUMMARY.md` files over full ar
 
 ## Pipeline Routing
 
-| If this exists | And this is missing | Run this agent |
+| If this exists | And this is missing | Invoke this skill |
 |---|---|---|
 | Nothing yet | `IDEA.md` | Ask for idea → save as `IDEA.md` |
-| `IDEA.md` | `PROBLEM.md` | `agents/00-problem-framing-agent.md` |
-| `PROBLEM.md` | `DISCOVERY.md` | `agents/01-ideation-agent.md` |
-| `DISCOVERY.md` | `COMPETITIVE.md` | `agents/01b-competitive-agent.md` |
-| `COMPETITIVE.md` | `USER_STORIES.md` | `agents/02-user-story-agent.md` |
-| `USER_STORIES.md` | `ROADMAP.md` | `agents/02b-roadmap-agent.md` |
-| `ROADMAP.md` | `DESIGN_SPEC.md` | `agents/03-design-spec-agent.md` |
+| `IDEA.md` | `PROBLEM.md` | `skills/problem-framing.md` |
+| `PROBLEM.md` | `DISCOVERY.md` | `skills/ideation.md` |
+| `DISCOVERY.md` | `COMPETITIVE.md` | `skills/competitive-research.md` |
+| `COMPETITIVE.md` | `USER_STORIES.md` | `skills/user-stories.md` |
+| `USER_STORIES.md` | `ROADMAP.md` | `skills/roadmap.md` |
+| `ROADMAP.md` | `DESIGN_SPEC.md` | `skills/design-spec.md` |
 | `DESIGN_SPEC.md` | `/src` | Begin build phase |
-| `/src` | `EVALS.md` | `agents/04-eval-agent.md` |
-| `EVALS.md` | `LAUNCH.md` | `agents/05-launch-agent.md` |
+| `/src` | `EVALS.md` | `skills/eval.md` |
+| `EVALS.md` | `LAUNCH.md` | `skills/launch.md` |
 
 ---
 
 ## Post-Run OS Wrapper
 
-After every agent completes and delivers its artifact, you (the orchestrator) run these steps automatically — the agent does not need to know about any of this:
+After every agent completes and delivers its artifact, you (the orchestrator) run these steps automatically — the skill does not need to know about any of this:
 
 **1. Save the artifact**
 Save the delivered artifact to `projects/[active-product]/[ARTIFACT].md`
@@ -122,9 +122,9 @@ Mark the completed phase as done, set the next phase as active.
 
 ---
 
-## Agent Contract
+## Skill Contract
 
-Agents only need to know their PM logic. They do NOT handle saving, summaries, or pipeline updates — the orchestrator does all of that. When reading an agent file, ignore any OS instructions that may have been left in older agent versions.
+Agents only need to know their PM logic. They do NOT handle saving, summaries, or pipeline updates — the orchestrator does all of that. When reading an skill file, ignore any OS instructions that may have been left in older agent versions.
 
 ---
 
@@ -144,4 +144,4 @@ Agents only need to know their PM logic. They do NOT handle saving, summaries, o
 3. Create `PROJECT.md` with Phase 0 status
 4. Copy `CLAUDE.md` template into `projects/[name]/CLAUDE.md`
 5. Ask for idea → save as `IDEA.md`
-6. Route to `agents/00-problem-framing-agent.md`
+6. Route to `skills/problem-framing.md`

@@ -67,18 +67,18 @@ Only load what the current phase needs. Use `*-SUMMARY.md` files for completed p
 
 ## Pipeline Routing
 
-| If this exists | And this is missing | Run this agent |
+| If this exists | And this is missing | Invoke this skill |
 |---|---|---|
 | Nothing yet | `IDEA.md` | Ask for idea → save as `IDEA.md` |
-| `IDEA.md` | `PROBLEM.md` | `../../agents/00-problem-framing-agent.md` |
-| `PROBLEM.md` | `DISCOVERY.md` | `../../agents/01-ideation-agent.md` |
-| `DISCOVERY.md` | `COMPETITIVE.md` | `../../agents/01b-competitive-agent.md` |
-| `COMPETITIVE.md` | `USER_STORIES.md` | `../../agents/02-user-story-agent.md` |
-| `USER_STORIES.md` | `ROADMAP.md` | `../../agents/02b-roadmap-agent.md` |
-| `ROADMAP.md` | `DESIGN_SPEC.md` | `../../agents/03-design-spec-agent.md` |
+| `IDEA.md` | `PROBLEM.md` | `../../skills/problem-framing.md` |
+| `PROBLEM.md` | `DISCOVERY.md` | `../../skills/ideation.md` |
+| `DISCOVERY.md` | `COMPETITIVE.md` | `../../skills/competitive-research.md` |
+| `COMPETITIVE.md` | `USER_STORIES.md` | `../../skills/user-stories.md` |
+| `USER_STORIES.md` | `ROADMAP.md` | `../../skills/roadmap.md` |
+| `ROADMAP.md` | `DESIGN_SPEC.md` | `../../skills/design-spec.md` |
 | `DESIGN_SPEC.md` | `/src` | Begin build phase |
-| `/src` | `EVALS.md` | `../../agents/04-eval-agent.md` |
-| `EVALS.md` | `LAUNCH.md` | `../../agents/05-launch-agent.md` |
+| `/src` | `EVALS.md` | `../../skills/eval.md` |
+| `EVALS.md` | `LAUNCH.md` | `../../skills/launch.md` |
 
 ---
 
